@@ -1,10 +1,26 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Home } from './pages/Home';
+import { CategoryDetail } from './pages/CategoryDetail';
+import { Contact } from './pages/Contact';
+import { About } from './pages/About';
+import { Skills } from './pages/Skills';
+import { NotFound } from './pages/NotFound';
+import { ScrollToTop } from './components/ScrollToTop';
+
 function App() {
   return (
-    <div style={{ padding: '2rem', fontFamily: 'system-ui' }}>
-      <h1>个人作品集网站</h1>
-      <p>项目初始化完成！</p>
-    </div>
-  )
+    <BrowserRouter>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/category/:id" element={<CategoryDetail />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/skills" element={<Skills />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

@@ -7,7 +7,23 @@
       "Bash(git config:*)",
       "Bash(git init)",
       "Bash(git add .)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(gh:*)",
+      "Bash(git remote:*)",
+      "Bash(git push:*)",
+      "mcp__MiniMax__understand_image",
+      "Bash(git add:*)",
+      "Bash(npm create vite@latest:*)",
+      "Bash(npm config delete:*)",
+      "Bash(npm config delete https-proxy)",
+      "Bash(npm init:*)",
+      "Bash(npm install)",
+      "Bash(npm install:*)",
+      "Bash(timeout 10 npm run:*)",
+      "Bash(npx:*)",
+      "Bash(timeout 8 npm run dev:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npm run build)"
     ]
   }
 }
