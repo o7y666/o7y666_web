@@ -16,23 +16,28 @@
 src/
   components/          # 可复用组件
     Hero.tsx           # 首屏区域（大区块，个人简介 + CTA）
-    CategoryCard.tsx   # 分类卡片（首页使用，大图 + 标题）
+    CategoryCard.tsx   # 分类卡片（全宽，大图 + 标题）
+    GridCard.tsx       # 底部网格卡片（2x2 布局）
     ProjectCard.tsx    # 项目卡片（详情页使用）
+    Button.tsx         # CTA 按钮组件
     Footer.tsx         # 页脚
     ScrollToTop.tsx    # 滚动到顶部按钮
 
   components/ui/       # 基础 UI 组件
-    Button.tsx         # 按钮组件
-    SectionHeading.tsx # 区块标题组件
+    Section.tsx        # 通用区块容器（全宽）
 
   pages/               # 页面
-    Home.tsx           # 首页（Hero + 分类卡片列表）
+    Home.tsx           # 首页（Hero + 分类卡片 + 底部网格）
     CategoryDetail.tsx # 分类详情页（该分类的项目列表）
+    About.tsx          # 关于我页面
+    Contact.tsx        # 联系方式页面
+    Skills.tsx         # 技能展示页面
     NotFound.tsx       # 404 页面
 
   data/                # 数据文件（核心：便于扩展）
     categories.ts      # 分类配置数据
     projects.ts        # 项目数据
+    gridItems.ts       # 底部网格数据
     social.ts          # 社交链接数据
     personal.ts        # 个人信息数据
 
@@ -59,10 +64,9 @@ src/
 export interface Category {
   id: string;           // 唯一标识，如 'hardware', 'software'
   name: string;         // 显示名称，如 '硬件设计'
-  description?: string; // 分类描述（可选，用于首页卡片）
-  coverImage?: string;  // 封面图路径（首页卡片大图）
-  icon?: string;        // 图标（可选）
-  color?: string;       // 分类主题色（可选）
+  description?: string; // 分类描述（可选）
+  coverImage: string;   // 封面图路径（全宽大图）
+  buttonText?: string;  // 按钮文字（可选，默认"了解更多"）
 }
 
 export const categories: Category[] = [
@@ -110,35 +114,60 @@ export interface Project {
 }
 
 export const projects: Project[] = [
-  // 硬件设计分类
   {
     id: '1',
     categoryId: 'hardware',
     title: 'XXX 项目',
     description: '基于 STM32 的嵌入式系统设计',
-    image: '/images/hardware/project1.jpg',
+    image: '/images/projects/hardware/1.jpg',
     techStack: ['STM32', 'PCB', 'C'],
     link: 'https://...',
   },
-  // 软件学习分类
+  // ...更多项目
+];
+```
+
+### 底部网格数据 (GridItem)
+
+```typescript
+// data/gridItems.ts
+export interface GridItem {
+  id: string;
+  title: string;       // 卡片标题
+  description?: string;// 简短描述（可选）
+  image?: string;      // 封面图（可选）
+  link: string;        // 跳转链接
+  icon?: string;       // 图标名称
+}
+
+export const gridItems: GridItem[] = [
   {
-    id: '2',
-    categoryId: 'software',
-    title: 'XXX 项目',
-    description: '自研效率工具应用',
-    image: '/images/software/project1.jpg',
-    techStack: ['React', 'TypeScript'],
-    link: 'https://...',
+    id: 'about',
+    title: '关于我',
+    description: '了解更多关于我的信息',
+    link: '/about',
+    icon: 'User',
   },
-  // AI 应用分类
   {
-    id: '3',
-    categoryId: 'ai',
-    title: 'XXX 项目',
-    description: 'AI 辅助开发工作流实践',
-    image: '/images/ai/project1.jpg',
-    techStack: ['Claude', 'Vibe Coding'],
-    link: 'https://...',
+    id: 'contact',
+    title: '联系方式',
+    description: '获取联系方式',
+    link: '/contact',
+    icon: 'Mail',
+  },
+  {
+    id: 'skills',
+    title: '技能展示',
+    description: '查看我的技能栈',
+    link: '/skills',
+    icon: 'Code',
+  },
+  {
+    id: 'more',
+    title: '更多',
+    description: '其他内容',
+    link: '/more',
+    icon: 'More',
   },
 ];
 ```
@@ -188,82 +217,99 @@ export const socialLinks: SocialLink[] = [
 
 | 路径 | 页面 | 说明 |
 |------|------|------|
-| `/` | Home 首页 | Hero（大区块）+ 分类卡片列表 |
+| `/` | Home 首页 | Hero + 分类卡片 + 底部网格 |
 | `/category/:id` | CategoryDetail | 分类详情页，展示该分类所有项目 |
+| `/about` | About | 关于我页面 |
+| `/contact` | Contact | 联系方式页面 |
+| `/skills` | Skills | 技能展示页面 |
 | `*` | NotFound | 404 页面 |
 
 ### 页面结构
 
 ```
 首页 (/)
-├── Hero（大区块，视觉突出）
+├── Hero（大区块，60-80vh）
 │   ├── 头像
 │   ├── 姓名 + Slogan
-│   └── CTA 按钮
-├── CategoryCard 列表
+│   └── CTA 按钮组（蓝色填充 + 蓝色链接）
+├── CategoryCard 列表（全宽）
 │   ├── 硬件设计（可点击）
 │   ├── 软件学习（可点击）
 │   ├── AI 应用（可点击）
 │   └── 探索中（可点击）
+├── 底部网格区域（2x2）
+│   ├── 关于我
+│   ├── 联系方式
+│   ├── 技能展示
+│   └── 更多
 └── Footer
-    └── 联系方式
+    └── 社交链接 + 版权
 
 分类详情页 (/category/:id)
-├── 分类标题 + 描述
 ├── 返回首页链接
+├── 分类标题 + 描述
 ├── ProjectCard 列表（该分类的所有项目）
 └── Footer
-    └── 联系方式
-```
 
-### 页面层级
+关于我页面 (/about)
+├── 个人介绍
+├── 详细经历
+└── Footer
 
-```
-Home 页（展示分类入口）
-    ↓ 点击分类卡片
-CategoryDetail 页（展示该项目列表）
-    ↓ 点击项目卡片
-项目链接（外部或弹窗）
+技能展示页面 (/skills)
+├── 技能分类
+├── 技能标签云
+└── Footer
 ```
 
 ## 组件设计
 
-### Hero 组件（大区块）
+### Hero 组件
 
 ```typescript
-// 包含：头像、标题、slogan、CTA 按钮
+// 包含：头像、标题、slogan、CTA 按钮组
 // 样式：
-//   - 高度：比分类区块更大（约 60-80vh 或更大）
+//   - 高度：60-80vh（比分类区块大）
 //   - 布局：居中，大字号
 //   - 背景：简洁，浅色系
+//   - 包含：蓝色填充按钮 + 蓝色文字链接
 ```
 
-### CategoryCard 组件（首页分类卡片）
+### CategoryCard 组件（分类卡片）
 
 ```typescript
 // 属性：category: Category
 // 包含：
-//   - 封面大图（coverImage）
-//   - 分类标题（name）
-//   - 简短描述（description，可选）
+//   - 全宽大图（coverImage，背景或前景）
+//   - 分类标题（居中）
+//   - 简短描述（可选，居中）
+//   - CTA 按钮组（蓝色填充 + 蓝色链接）
 // 交互：
 //   - 整个卡片可点击
-//   - 悬停效果（放大/蒙层变化）
+//   - 悬停效果（图片放大/蒙层变化）
 //   - 链接到 /category/:id
 // 样式：
-//   - 全宽或大卡片
-//   - 图片为主要视觉元素
+//   - 全宽通栏
+//   - 高度：300-400px
+//   - 背景图 + 居中文字覆盖
 ```
 
-### CategoryDetail 页面组件
+### GridCard 组件（底部网格卡片）
 
 ```typescript
-// 属性：从 URL 获取 categoryId
+// 属性：item: GridItem
 // 包含：
-//   - 分类标题 + 描述
-//   - 返回首页按钮
-//   - 该分类的 ProjectCard 列表
-// 功能：根据 categoryId 过滤并展示对应项目
+//   - 标题（居中）
+//   - 简短描述（可选）
+//   - 图标或图片（可选）
+// 交互：
+//   - 卡片可点击
+//   - 悬停效果
+//   - 链接到指定页面
+// 样式：
+//   - 2x2 网格布局
+//   - 等宽卡片
+//   - 白色背景或浅灰背景
 ```
 
 ### ProjectCard 组件（详情页项目卡片）
@@ -277,6 +323,20 @@ CategoryDetail 页（展示该项目列表）
 //   - 技术栈标签
 //   - 项目链接
 // 样式：卡片式，悬停效果
+```
+
+### Button 组件（CTA 按钮）
+
+```typescript
+// 属性：
+//   - variant: 'primary' | 'secondary'
+//   - children: ReactNode
+//   - onClick?: () => void
+//   - className?: string
+
+// 样式：
+//   - primary: bg-[#007AFF] text-white rounded-full px-6 py-2
+//   secondary: text-[#007AFF] hover:underline
 ```
 
 ### 动画效果（Framer Motion）
@@ -307,9 +367,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#007AFF',      // 强调色（蓝色）
-        background: '#FAFAFA',   // 浅米色背景
-        surface: '#FFFFFF',      // 白色卡片
+        primary: '#007AFF',      // 强调色（苹果蓝）
+        background: '#FFFFFF',   // 白色背景
+        surface: '#F5F5F7',      // 浅灰背景
         text: {
           primary: '#1D1D1F',    // 主要文字
           secondary: '#86868b',  // 次要文字
@@ -319,8 +379,8 @@ export default {
         sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
       },
       spacing: {
-        'hero': '60vh',  // Hero 区块高度
-        'section': '20px', // 分类区块间距
+        'hero': '70vh',  // Hero 区块高度
+        'section': '80px', // 区块间距
       },
     },
   },
@@ -332,7 +392,8 @@ export default {
 | 区块 | 高度 | 说明 |
 |------|------|------|
 | Hero | 60-80vh | 最大，首屏视觉焦点 |
-| CategoryCard | 300-400px | 中等，图片为主 |
+| CategoryCard | 300-400px | 全宽，图片为主 |
+| GridCard | 200-300px | 2x2 网格，等高 |
 | ProjectCard | 自适应 | 详情页使用 |
 
 ### 全局样式
@@ -345,7 +406,7 @@ export default {
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background-color: #FAFAFA;
+  background-color: #FFFFFF;
   color: #1D1D1F;
   -webkit-font-smoothing: antialiased;
 }
@@ -354,16 +415,22 @@ body {
 html {
   scroll-behavior: smooth;
 }
+
+/* 全宽通栏区块 */
+.full-width-section {
+  width: 100%;
+  max-width: 100%;
+}
 ```
 
 ## 关键技术点
 
-1. **数据驱动渲染** - 根据 categories 和 projects 数据自动生成页面，无需手动添加分类组件
-2. **React Router 路由** - 首页 + 分类详情页的页面跳转
+1. **数据驱动渲染** - 根据 categories 和 projects 数据自动生成页面
+2. **React Router 路由** - 首页 + 分类详情页 + 附加页面
 3. **Framer Motion 动画** - 实现苹果风格的滚动淡入、悬停效果
-4. **响应式设计** - Tailwind CSS 实现移动端适配
+4. **响应式设计** - Tailwind CSS 实现全宽通栏 + 网格布局
 5. **图片懒加载** - 使用原生 lazy load 或 React lazy loading
-6. **组件复用** - 统一的 ProjectCard 组件保证所有项目展示一致
+6. **组件复用** - 统一的 Card 组件保证一致性
 
 ### 路由配置
 
@@ -372,6 +439,9 @@ html {
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import CategoryDetail from './pages/CategoryDetail';
+import About from './pages/About';
+import Contact from './pages/Contact';
+import Skills from './pages/Skills';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -380,6 +450,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/category/:id" element={<CategoryDetail />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/skills" element={<Skills />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
@@ -407,11 +480,11 @@ function App() {
   id: 'new-category',
   name: '新分类',
   description: '描述...',
-  coverImage: '/images/categories/new.jpg',  // 封面图
+  coverImage: '/images/categories/new.jpg',
 }
 ```
 
-首页会自动渲染新的分类卡片，链接到 `/category/new-category`。
+首页会自动渲染新的分类卡片。
 
 ### 添加新项目
 
@@ -420,27 +493,43 @@ function App() {
 ```typescript
 {
   id: 'new-project',
-  categoryId: 'new-category',  // 关联分类
+  categoryId: 'new-category',
   title: '项目名称',
   description: '一句话描述',
   image: '/images/projects/new.jpg',
-  techStack: ['React', 'TypeScript'],
+  techStack: ['React'],
   link: 'https://...',
 }
 ```
 
-项目会自动出现在对应分类的详情页中。
+项目会自动出现在对应分类的详情页。
+
+### 添加底部网格项
+
+只需在 `data/gridItems.ts` 中添加：
+
+```typescript
+{
+  id: 'new-item',
+  title: '新项',
+  description: '描述...',
+  link: '/new-page',
+  icon: 'IconName',
+}
+```
 
 ### 页面层级总结
 
 ```
 首页 (/)
   ├── Hero（大区块）
-  └── 分类卡片（硬件设计 / 软件学习 / AI 应用 / 探索中）
-       ↓ 点击
+  ├── 分类卡片（硬件设计 / 软件学习 / AI 应用 / 探索中）
+  └── 底部网格（关于我 / 联系方式 / 技能展示 / 更多）
+       ↓ 点击分类
   分类详情页 (/category/:id)
-       ├── 该分类的所有项目卡片
-       └── 点击项目链接
-            ↓
-       项目详情（外部链接）
+       └── 项目卡片列表
+            ↓ 点击
+       项目链接（外部）
+       ↓ 点击底部网格
+  其他页面（/about / /contact / /skills）
 ```
