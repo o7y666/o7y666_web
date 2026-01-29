@@ -112,7 +112,7 @@ const About: React.FC = () => {
       </motion.div>
 
       {/* 主内容 - 居中布局 */}
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <motion.div
           variants={containerVariants}
           initial="hidden"
