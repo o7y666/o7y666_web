@@ -5,7 +5,7 @@ import { ChevronDown } from 'lucide-react';
 
 /**
  * Hero 区块
- * 首屏大标题和简介 - 增强动画版本
+ * 首屏大标题和简介 - 居中对齐优化版
  */
 const Hero: React.FC = () => {
   // 容器动画配置
@@ -45,14 +45,14 @@ const Hero: React.FC = () => {
       transition: {
         delay: i * 0.08,
         duration: 0.5,
-        ease: [0.34, 1.56, 0.64, 1], // 弹性效果
+        ease: [0.34, 1.56, 0.64, 1],
       },
     }),
   };
 
   // 云朵飘动动画
   const cloudVariants = {
-    animate: {
+    animate: (delay: number) => ({
       x: [0, 15, 0],
       y: [0, -10, 0],
       rotate: [0, 3, 0],
@@ -60,8 +60,9 @@ const Hero: React.FC = () => {
         duration: 6,
         repeat: Infinity,
         ease: 'easeInOut',
+        delay,
       },
-    },
+    }),
   };
 
   // 吉祥物弹跳动画
@@ -92,42 +93,52 @@ const Hero: React.FC = () => {
 
   return (
     <section className="min-h-screen flex items-center justify-center py-20 px-6 lg:px-12 bg-cream relative overflow-hidden">
-      {/* 装饰云朵 - 带飘动动画 */}
+      {/* 装饰云朵 - 左上 */}
       <motion.div
         className="cloud-decoration cloud-md top-20 left-10 tilt-2 opacity-60"
+        custom={0}
         variants={cloudVariants}
         animate="animate"
-        style={{ animationDelay: '0s' }}
       />
       <motion.div
-        className="cloud-decoration cloud-lg top-32 right-16 tilt-1 opacity-40"
+        className="cloud-decoration cloud-sm top-40 left-32 tilt-3 opacity-40"
+        custom={1}
         variants={cloudVariants}
         animate="animate"
-        style={{ animationDelay: '2s' }}
-        transition={{ delay: 2 }}
-      />
-      <motion.div
-        className="cloud-decoration cloud-sm bottom-48 left-1/4 tilt-3 opacity-50"
-        variants={cloudVariants}
-        animate="animate"
-        transition={{ delay: 4 }}
-      />
-      <motion.div
-        className="cloud-decoration cloud-md bottom-32 right-1/4 tilt-4 opacity-30"
-        variants={cloudVariants}
-        animate="animate"
-        transition={{ delay: 3 }}
       />
 
-      <div className="max-w-6xl mx-auto text-center relative z-10">
+      {/* 装饰云朵 - 右上 */}
+      <motion.div
+        className="cloud-decoration cloud-lg top-24 right-16 tilt-1 opacity-40"
+        custom={2}
+        variants={cloudVariants}
+        animate="animate"
+      />
+      <motion.div
+        className="cloud-decoration cloud-md top-48 right-32 tilt-4 opacity-30"
+        custom={3}
+        variants={cloudVariants}
+        animate="animate"
+      />
+
+      {/* 装饰云朵 - 左下 */}
+      <motion.div
+        className="cloud-decoration cloud-sm bottom-40 left-20 tilt-1 opacity-50"
+        custom={4}
+        variants={cloudVariants}
+        animate="animate"
+      />
+
+      {/* 主内容 - 严格居中 */}
+      <div className="w-full max-w-4xl mx-auto text-center relative z-10">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
           {/* 主标题 - 字符逐个动画 */}
-          <motion.h1 className="font-heading text-7xl md:text-8xl lg:text-9xl font-bold text-text-primary mb-4">
-            <span className="hand-underline inline-flex">
+          <motion.h1 className="font-heading text-7xl md:text-8xl lg:text-9xl font-bold text-text-primary mb-6">
+            <span className="hand-underline inline-flex justify-center">
               {titleChars.map((char, i) => (
                 <motion.span
                   key={i}
@@ -160,7 +171,7 @@ const Hero: React.FC = () => {
             {siteConfig.description}
           </motion.p>
 
-          {/* CTA 按钮 */}
+          {/* CTA 按钮 - 居中 */}
           <motion.div
             variants={itemVariants}
             className="flex flex-wrap justify-center gap-6"
@@ -198,10 +209,26 @@ const Hero: React.FC = () => {
         </motion.div>
       </div>
 
+      {/* 右下角装饰 - 平衡视觉 */}
+      <motion.div
+        className="absolute bottom-32 right-20 text-7xl opacity-20 tilt-2"
+        animate={{
+          y: [0, -15, 0],
+          rotate: [0, 5, 0],
+        }}
+        transition={{
+          duration: 4,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+      >
+        ✨
+      </motion.div>
+
       {/* 底部装饰线 */}
       <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-duck-yellow to-transparent" />
 
-      {/* 滚动提示 */}
+      {/* 滚动提示 - 居中 */}
       <motion.a
         href="#about"
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center text-text-secondary hover:text-text-primary transition-colors"
