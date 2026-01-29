@@ -25,9 +25,9 @@ export function CategorySection({ category, index = 0 }: CategorySectionProps) {
   const isEven = index % 2 === 0;
 
   return (
-    <section className="w-full py-12 px-6 border-t border-[#F5F5F7] bg-white">
+    <section className="w-full py-16 px-6">
       <div className="max-w-6xl mx-auto">
-        <div className={`flex flex-col lg:flex-row gap-8 items-center ${!isEven ? 'lg:flex-row-reverse' : ''}`}>
+        <div className={`flex flex-col lg:flex-row gap-12 items-center ${!isEven ? 'lg:flex-row-reverse' : ''}`}>
           {/* 图片区域 - 40% */}
           <motion.div
             className="w-full lg:w-2/5"
@@ -40,7 +40,7 @@ export function CategorySection({ category, index = 0 }: CategorySectionProps) {
             <img
               src={category.coverImage}
               alt={category.name}
-              className="w-full h-[250px] lg:h-[300px] object-cover rounded-2xl shadow-sm"
+              className="w-full h-[280px] lg:h-[320px] object-cover rounded-2xl shadow-sm"
             />
           </motion.div>
 

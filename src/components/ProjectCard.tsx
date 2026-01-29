@@ -9,7 +9,7 @@ interface ProjectCardProps {
 export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
   return (
     <motion.div
-      className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-200"
+      className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg border border-[#F5F5F7] transition-all duration-200"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}

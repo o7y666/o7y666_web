@@ -23,7 +23,8 @@
       "Bash(npx:*)",
       "Bash(timeout 8 npm run dev:*)",
       "Bash(npm run dev:*)",
-      "Bash(npm run build)"
+      "Bash(npm run build)",
+      "mcp__MiniMax__web_search"
     ]
   }
 }

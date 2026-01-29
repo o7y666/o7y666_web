@@ -17,7 +17,7 @@ export function GridCard({ item, index = 0 }: GridCardProps) {
     >
       <Link
         to={item.link}
-        className="block bg-white rounded-xl p-6 text-center hover:shadow-lg transition-all duration-200 hover:-translate-y-1"
+        className="block bg-white rounded-xl p-6 text-center hover:shadow-lg border border-[#F5F5F7] transition-all duration-200 hover:-translate-y-1 hover:border-[#E5E5EA]"
       >
         <h3 className="text-base font-semibold text-[#1D1D1F] mb-2">
           {item.title}

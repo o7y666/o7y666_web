@@ -25,7 +25,7 @@ const staggerContainer = {
 
 export function Hero({ onContactClick }: HeroProps) {
   return (
-    <section className="h-[45vh] min-h-[350px] flex flex-col items-center justify-center text-center px-6 bg-white">
+    <section className="h-[45vh] min-h-[350px] flex flex-col items-center justify-center text-center px-6 bg-[#F5F5F7]">
       <motion.div
         variants={staggerContainer}
         initial="hidden"
@@ -36,7 +36,7 @@ export function Hero({ onContactClick }: HeroProps) {
         <motion.img
           src={personal.avatar}
           alt={personal.name}
-          className="w-24 h-24 rounded-full object-cover mb-6"
+          className="w-40 h-40 rounded-full object-cover mb-6"
           variants={fadeInUp}
           transition={{ duration: 0.6 }}
         />
