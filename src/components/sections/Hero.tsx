@@ -14,8 +14,8 @@ const Hero: React.FC = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
+        staggerChildren: 0.05,
+        delayChildren: 0.1,
       },
     },
   };
@@ -43,49 +43,49 @@ const Hero: React.FC = () => {
       y: 0,
       rotate: 0,
       transition: {
-        delay: i * 0.08,
-        duration: 0.5,
+        delay: i * 0.03,
+        duration: 0.4,
         ease: [0.34, 1.56, 0.64, 1],
       },
     }),
   };
 
-  // 云朵飘动动画
+  // 云朵飘动动画 - 减缓并限制次数
   const cloudVariants = {
     animate: (delay: number) => ({
-      x: [0, 15, 0],
-      y: [0, -10, 0],
-      rotate: [0, 3, 0],
+      x: [0, 10, 0],
+      y: [0, -5, 0],
+      rotate: [0, 2, 0],
       transition: {
-        duration: 6,
-        repeat: Infinity,
+        duration: 10,
+        repeat: 2,
         ease: 'easeInOut',
         delay,
       },
     }),
   };
 
-  // 吉祥物弹跳动画
+  // 吉祥物弹跳动画 - 减缓并限制次数
   const mascotVariants = {
     animate: {
-      y: [0, -15, 0],
-      rotate: [-5, 5, -5],
+      y: [0, -10, 0],
+      rotate: [-3, 3, -3],
       transition: {
-        duration: 2,
-        repeat: Infinity,
+        duration: 4,
+        repeat: 3,
         ease: 'easeInOut',
       },
     },
   };
 
-  // 滚动提示动画
+  // 滚动提示动画 - 更 subtle
   const scrollIndicatorVariants = {
     animate: {
-      y: [0, 10, 0],
-      opacity: [0.6, 1, 0.6],
+      y: [0, 6, 0],
+      opacity: [0.4, 0.7, 0.4],
       transition: {
-        duration: 1.5,
-        repeat: Infinity,
+        duration: 2,
+        repeat: 3,
         ease: 'easeInOut',
       },
     },
@@ -95,13 +95,13 @@ const Hero: React.FC = () => {
     <section className="min-h-screen flex items-center justify-center py-20 px-6 lg:px-12 bg-cream relative overflow-hidden">
       {/* 装饰云朵 - 左上 */}
       <motion.div
-        className="cloud-decoration cloud-md top-20 left-10 tilt-2 opacity-60"
+        className="cloud-decoration cloud-md top-20 left-10 tilt-2 opacity-15"
         custom={0}
         variants={cloudVariants}
         animate="animate"
       />
       <motion.div
-        className="cloud-decoration cloud-sm top-40 left-32 tilt-3 opacity-40"
+        className="cloud-decoration cloud-sm top-40 left-32 tilt-3 opacity-10"
         custom={1}
         variants={cloudVariants}
         animate="animate"
@@ -109,13 +109,13 @@ const Hero: React.FC = () => {
 
       {/* 装饰云朵 - 右上 */}
       <motion.div
-        className="cloud-decoration cloud-lg top-24 right-16 tilt-1 opacity-40"
+        className="cloud-decoration cloud-lg top-24 right-16 tilt-1 opacity-10"
         custom={2}
         variants={cloudVariants}
         animate="animate"
       />
       <motion.div
-        className="cloud-decoration cloud-md top-48 right-32 tilt-4 opacity-30"
+        className="cloud-decoration cloud-md top-48 right-32 tilt-4 opacity-10"
         custom={3}
         variants={cloudVariants}
         animate="animate"
@@ -123,7 +123,7 @@ const Hero: React.FC = () => {
 
       {/* 装饰云朵 - 左下 */}
       <motion.div
-        className="cloud-decoration cloud-sm bottom-40 left-20 tilt-1 opacity-50"
+        className="cloud-decoration cloud-sm bottom-40 left-20 tilt-1 opacity-15"
         custom={4}
         variants={cloudVariants}
         animate="animate"
@@ -211,14 +211,14 @@ const Hero: React.FC = () => {
 
       {/* 右下角装饰 - 平衡视觉 */}
       <motion.div
-        className="absolute bottom-32 right-20 text-7xl opacity-20 tilt-2"
+        className="absolute bottom-32 right-20 text-7xl opacity-15 tilt-2"
         animate={{
-          y: [0, -15, 0],
-          rotate: [0, 5, 0],
+          y: [0, -8, 0],
+          rotate: [0, 3, 0],
         }}
         transition={{
-          duration: 4,
-          repeat: Infinity,
+          duration: 8,
+          repeat: 3,
           ease: 'easeInOut',
         }}
       >
@@ -228,15 +228,14 @@ const Hero: React.FC = () => {
       {/* 底部装饰线 */}
       <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-duck-yellow to-transparent" />
 
-      {/* 滚动提示 - 居中 */}
+      {/* 滚动提示 - 仅保留箭头 */}
       <motion.a
         href="#about"
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center text-text-secondary hover:text-text-primary transition-colors"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center text-text-secondary hover:text-text-primary transition-colors"
         variants={scrollIndicatorVariants}
         animate="animate"
       >
-        <span className="font-hand text-sm mb-2">向下滚动</span>
-        <ChevronDown size={24} />
+        <ChevronDown size={20} />
       </motion.a>
     </section>
   );

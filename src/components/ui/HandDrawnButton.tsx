@@ -20,8 +20,8 @@ export interface HandDrawnButtonProps {
   children: React.ReactNode;
   /** 按钮变体 */
   variant?: 'primary' | 'secondary' | 'ghost';
-  /** 按钮尺寸 */
-  size?: 'sm' | 'md' | 'lg';
+  /** 按钮尺寸 - compact 用于 Header 滚动后 */
+  size?: 'compact' | 'sm' | 'md' | 'lg';
   /** 旋转角度 1-4 */
   tilt?: 1 | 2 | 3 | 4;
   /** 外部链接（有 href 时渲染为 a 标签） */
@@ -64,10 +64,14 @@ export const HandDrawnButton: React.FC<HandDrawnButtonProps> = ({
 
   // 尺寸类名
   const sizeClasses = {
+    compact: 'px-3 py-1.5 text-sm',
     sm: 'px-4 py-2 text-base',
     md: 'px-6 py-3 text-lg',
     lg: 'px-8 py-4 text-xl',
   };
+
+  // Focus 可见样式
+  const focusClasses = 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-duck-yellow focus-visible:ring-offset-2';
 
   // 禁用状态类名
   const disabledClasses = disabled ? 'opacity-50 cursor-not-allowed' : '';
@@ -77,6 +81,7 @@ export const HandDrawnButton: React.FC<HandDrawnButtonProps> = ({
     ${variantClasses[variant]}
     ${sizeClasses[size]}
     ${tiltClasses[tilt]}
+    ${focusClasses}
     ${disabledClasses}
     ${className}
   `;

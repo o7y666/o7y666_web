@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { siteConfig } from '../../data/siteConfig';
+import { HandDrawnButton } from '../ui/HandDrawnButton';
 import { Github, Menu, X } from 'lucide-react';
 
 /**
@@ -98,22 +99,24 @@ const Header: React.FC = () => {
 
           {/* 右侧按钮 */}
           <div className="flex items-center gap-4">
-            {/* GitHub 链接 */}
-            <motion.a
-              href={siteConfig.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden md:flex btn-hand btn-hand-primary text-base px-4 py-2"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Github size={18} className="mr-2" />
-              GitHub
-            </motion.a>
+            {/* GitHub 链接 - 使用统一按钮组件 */}
+            <div className="hidden md:block">
+              <HandDrawnButton
+                variant="primary"
+                size={isScrolled ? 'compact' : 'sm'}
+                tilt={2}
+                href={siteConfig.githubUrl}
+                target="_blank"
+                className="flex items-center gap-2 transition-all duration-300"
+              >
+                <Github size={isScrolled ? 16 : 18} />
+                <span>GitHub</span>
+              </HandDrawnButton>
+            </div>
 
             {/* 移动端菜单按钮 */}
             <motion.button
-              className="md:hidden w-10 h-10 flex items-center justify-center text-text-primary"
+              className="md:hidden w-10 h-10 flex items-center justify-center text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-duck-yellow rounded"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
